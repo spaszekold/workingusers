@@ -1,8 +1,0 @@
-@mixin border-image($url, $offsets, $repeats)  {
-  -moz-border-image: $url $offsets $repeats;
-  border-image: $url $offsets $repeats;
-  -webkit-border-image: $url $offsets $repeats;
-  o-border-image: $url $offsets $repeats;
-  -ms-border-image: $url $offsets $repeats;
-
-}
