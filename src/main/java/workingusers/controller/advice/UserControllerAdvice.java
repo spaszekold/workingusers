@@ -10,6 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+
+/*
+to be used in future
+add modelAttribute currentuser equal to user details provided by Authentication
+ */
 @ControllerAdvice
 public class UserControllerAdvice {
 

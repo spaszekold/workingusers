@@ -27,17 +27,17 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private PostRepository postRepository;
 
+
+    /**
+     * returns all comments from given post
+     */
     @Override
     public List<Comment> getCommentsFromPost(long postid) {
-        System.out.println("commentserviceimpl @getcommentfrompost/" + postid);
         PostEntity p = postRepository.findOneById(postid);
-        //System.out.println("post is: " + p);
         List<CommentEntity> temp = commentRepository.findAllByPostidOrderByCreatedDesc(p);
-        //System.out.println("list of comment entities: " + temp);
         List<Comment> result = new ArrayList();
 
-
-
+        //wrapping CommentEntity into lighter Comment
         for (CommentEntity c : temp) {
             long parentid = -1;
             if (c.getParent() != null)
@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
             result.add(new Comment(c.getContent(), c.getCreated(), c.getId(), c.getLilname(), c.getDepth(),parentid ));
         }
 
-
+        //return sorted comment list
         return arrangeList(result);
 
     }
@@ -64,7 +64,7 @@ public class CommentServiceImpl implements CommentService {
 
 
     private List<Comment> arrangeList(List<Comment> commentList) {
-        long startTime = System.nanoTime();
+
         List<Comment> result = new ArrayList<Comment>();
         List<Comment> remainingComments = commentList;
         Iterator<Comment> commentIter = remainingComments.iterator();
@@ -84,11 +84,6 @@ public class CommentServiceImpl implements CommentService {
             }
         }
 
-
-      //  System.out.println("drukuje liste result:");
-       // System.out.println(result);
-       // System.out.println("max depth wynosi:" + maxDepth);
-
         if (maxDepth != 0) {
             //while we havent reached maximum depth
             int currentDepth = 1;
@@ -103,7 +98,6 @@ public class CommentServiceImpl implements CommentService {
                     if (comment.getDepth() == currentDepth) {
                         //get parrent index
                         int parentindex = getIndexOf(result, comment.getParentid());
-                       // System.out.println("Indeks ojca " + comment.id + " w liscie wynosi " + parentindex);
                         //put it in result after the parent
                         result.add(parentindex + 1, comment);
                         //remove from remainingComments list
@@ -114,13 +108,12 @@ public class CommentServiceImpl implements CommentService {
             } while (currentDepth++ != maxDepth);
         }
 
-        long endTime = System.nanoTime();
-        System.out.println("ogarniecie komci zajelo " + (endTime - startTime)/1000000 + " ms");
-
 
         return result;
     }
 
+
+    //helper method, returns index of Comment on list with given id
     public int getIndexOf(List<Comment> list, long pid) {
         Iterator<Comment> iterator = list.iterator();
 

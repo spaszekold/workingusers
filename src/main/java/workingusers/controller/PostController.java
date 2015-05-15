@@ -18,12 +18,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Created by Tomek on 2015-05-01.
+ * controller handling post rendering, by tags, user
  */
 @Controller
 @RequestMapping(value = "/post/")
 public class PostController {
 
+
+   /**
+    * attribute added to each view, representing 10 most popular tags
+    * returns Map<String,Long> where String equals to tag name
+    *                             Long equals to number of posts with that tag
+    */
     @ModelAttribute("tagCloud")
     public Map<String,Long> getTagCloud() {
         return tagService.getTagCloud()
@@ -42,12 +48,19 @@ public class PostController {
     @Autowired
     private TagService tagService;
 
+    /**
+      * returns view containing all posts by certain tag
+      */
     @RequestMapping(value = "/tag/{tagname}/{pageNumber}", method = RequestMethod.GET)
     public String seeTagPage(@PathVariable String tagname, @PathVariable int pageNumber, Model uiModel) {
         PageRequest newPgb = new PageRequest(pageNumber - 1, 5);
         Page<PostEntity> currentResults = postService.getAllByTag(tagname,newPgb);
         uiModel.addAttribute("currentResults",currentResults);
+
+
+        // attributes used by pagination
         int totalPages = currentResults.getTotalPages();
+        // currently viewed page
         int current = currentResults.getNumber() + 1;
         int begin = Math.max(1, current - 5);
         int end = Math.min(begin + 5, currentResults.getTotalPages());
@@ -62,6 +75,9 @@ public class PostController {
         return "index";
     }
 
+    /**
+     * returns view containing all posts by certain user
+     */
     @RequestMapping(value = "/user/{username}/{pageNumber}", method = RequestMethod.GET)
     public String seeUserPage(@PathVariable String username, @PathVariable int pageNumber, Model uiModel) {
         PageRequest newPgb = new PageRequest(pageNumber - 1, 5);
@@ -82,7 +98,9 @@ public class PostController {
         return "index";
     }
 
-
+    /**
+     * returns view containing all posts
+     */
     @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
     public String seePage(@PathVariable int pageNumber, Model uiModel) {
         System.out.println("/page/" + pageNumber);

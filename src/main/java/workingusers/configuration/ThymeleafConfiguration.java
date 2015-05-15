@@ -11,10 +11,7 @@ import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
 @Configuration
 public class ThymeleafConfiguration {
 
-
-
-
-
+    // :SEC TAG IN THYMELEAF TEMPLATES NOW WORKS
     @Bean
     public SpringSecurityDialect springSecurityDialect() {
         return new SpringSecurityDialect();

@@ -38,44 +38,6 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private UserRepository userRepository;
 
-//    @Override
-//    public List<PostFront> getFront() {
-//        List<PostFront> result = new ArrayList<PostFront>();
-//        List<PostEntity> entities = (List<PostEntity>) postRepository.findAllByOrderByCreatedDesc();
-//
-//
-//        System.out.println(entities);
-//        for (PostEntity p : entities) {
-//            Set<Tag> tags = new HashSet<Tag>();
-//            for (TagEntity t: p.getTags()) {
-//                Tag newtag = new Tag(t.getId(),t.getTagname());
-//                tags.add(newtag);
-//            }
-//
-//            Optional<UserEntity> userEntity = null;
-//            Author author;
-//            if (p.getUserid() != null) {
-//                userEntity = userRepository.findOneById(p.getUserid().getId());
-//                if (userEntity.isPresent())
-//                    author = new Author(userEntity.get().getId(),userEntity.get().getNick());
-//                else
-//                    author = new Author();
-//
-//            }
-//            else
-//                author = new Author();
-//
-//
-//
-//
-//            PostFront n = new PostFront(p.getId(),p.getFullname(),p.getLilname(),p.getCreated(),tags,author);
-//            result.add(n);
-//        }
-//
-//
-//        return result;
-//    }
-
     @Override
     public PostFull getFull(long id) {
         PostEntity result = postRepository.findOneById(id);
@@ -103,7 +65,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void addNewPost(PostFull postFull, Authentication authentication) {
-        System.out.println("nowy post wjezdza");
         Set<TagEntity> tags = new HashSet<>();
         if (postFull.getTags() != null) {
             for (String s : postFull.getTags()) {
@@ -123,7 +84,6 @@ public class PostServiceImpl implements PostService {
         Optional<UserEntity> userEntity = userRepository.findOneByEmail(user.getUsername());
 
         if (userEntity.isPresent()) {
-            System.out.println("stworzyl go " + userEntity);
             p.setUserid(userEntity.get());
         }
 

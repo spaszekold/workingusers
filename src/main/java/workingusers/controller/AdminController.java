@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/admin")
 public class AdminController {
 
+
+
+    //only admin has permission to get to admin panel
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping
     public String admin() {

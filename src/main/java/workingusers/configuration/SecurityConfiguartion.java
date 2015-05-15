@@ -64,11 +64,18 @@ public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
          auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
          }
 
+
+
+
+        //WE NEED TOKEN REPOSITORY, AS ANGULAR CSRF TOKEN DIFFERS FROM SPRING'S DEFAULT CSRF TOKEN
+        //HEADER GETS RENAMED TO PROPER, ANGULAR ONE
          private CsrfTokenRepository csrfTokenRepository() {
          HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
          repository.setHeaderName("X-XSRF-TOKEN");
          return repository;
          }
+
+
 
 
          public class CsrfHeaderFilter extends OncePerRequestFilter {
