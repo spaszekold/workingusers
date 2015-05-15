@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head >
+
+</head>
+<body>
+
+<div th:fragment="nav">
+    <div class="blogNav">
+        <div class="menu">
+            <a href="/">home</a>
+            <a href="/">tags</a>
+            <a href="/">videos</a>
+            <a href="/">search</a>
+        </div>
+        <div class="login">
+            <a href="/user/profile" sec:authorize="isAuthenticated()">My profile</a>
+            <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+            <a href="/login" sec:authorize="isAnonymous()">Sign in</a>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<!--<div class="container">-->
+    <!--<nav class="blog-nav">-->
+        <!--<a class="blog-nav-item active" href="/">Home</a>-->
+        <!--<a class="blog-nav-item" href="#">Post</a>-->
+        <!--<a class="blog-nav-item" href="#">Contact</a>-->
+    <!--</nav>-->
+    <!--<div style="float:right;" sec:authorize="isAuthenticated()">-->
+        <!--Hello <span sec:authentication="name"></span>-->
+    <!--</div>-->
+    <!--<div style="float:right;" sec:authorize="isAnonymous()">-->
+        <!--<a class="blog-nav-item" href="/login">Log in</a>-->
+    <!--</div>-->
+<!--</div>-->
+
+</body>
+
+</html>

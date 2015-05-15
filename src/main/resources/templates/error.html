@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:include="fragments/head :: head" th:remove="tag"/>
+    <title>Swagernia # error</title>
+    <link rel="stylesheet"
+          href="/css/error.css" />
+</head>
+
+<body>
+
+    <div>
+        <h1>    Oops! An error with code <span th:text="${status}">500</span> occured.</h1>
+        <h3><a href="javascript:history.back()">go Back</a></h3>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:include="fragments/head :: head" th:remove="tag"/>
+    <title>Swagernia # post</title>
+    <script src="/js/angular/post.js"></script>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+<div th:replace="fragments/nav :: nav"  th:remove="tag">
+
+</div>
+
+<div class="container">
+    <h1 class="mblog-post-header" th:text="${post.lilname}"></h1>
+    <h2 class="mblog-post-header2" th:text="${post.fullname}">hhh</h2>
+
+    <div class="blog-post">
+    <p class="mblog-post-content" th:text="${post.content}"></p>
+        </div>
+
+
+
+
+    <div ng-app="comment" ng-controller="commentCtrl">
+
+
+        <form name="commentform">
+            <input type="hidden" name="postid" id="postid" value="420" th:value="${post.id}"/>
+            <label>CTITLE: </label>
+            <input type="text" ng-model="ctitle"/>
+            <label>CCONTENT: </label>
+            <input type="text" ng-model="ccontent"/>
+            <button ng-click="add()">ADD</button>
+        </form>
+
+        {{currentparent}}
+        <div style="width: 300px; background:gray; margin-top: 20px;" ng-style="{'margin-left': '' + comment.depth * 25 + 'px'}" ng-repeat="comment in comments track by $index" ng-click="selectParent(comment.id)">
+           #{{comment.id}}<h1>{{comment.lilname}}</h1>
+            <p ng-show="comment.parentid != -1">in response to {{comment.parentid}}</p>
+            <p> with depth {{comment.depth}} created {{comment.created | date:'yyyy-MM-dd HH:mm:ss '}}</p>
+            {{comment.content}}
+        </div>
+
+    </div>
+
+</div>
+<footer class="blog-footer" th:replace="fragments/footer :: footer">
+
+</footer>
+
+</body>
+</html>

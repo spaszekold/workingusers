@@ -1,0 +1,81 @@
+
+
+.pag{
+  margin: 0 auto;
+  text-align: center;
+  height: 30px;
+
+  a {
+    padding: 0 14px;
+
+    min-width: 20px;
+    line-height: 34px;
+    text-decoration: none;
+    background: $darkcolor;
+    color: $lightcolor;
+    &:hover {
+      background: $lightcolor;
+      color: $darkcolor;
+    }
+  }
+  .active {
+    background: $lightcolor;
+    color: $darkcolor;
+    padding: 0 14px;
+    min-width: 20px;
+    a {
+    background: $lightcolor;
+    color: $darkcolor;
+    }
+  }
+  .disabled {
+    padding: 0 14px;
+    min-width: 20px;
+    color: $graycolor;
+  }
+  ul {
+    border-radius: 4px;
+    margin: 0;
+    padding: 0;
+    font-size: 25px;
+    list-style-type: none;
+    li {
+      &:last-child {
+        -webkit-border-radius: 0 6px 6px 0;
+        -moz-border-radius: 0 6px 6px 0;
+        border-radius: 0 6px 6px 0;
+      }
+      &:first-child {
+        border-left-width: 1px;
+        -webkit-border-radius: 6px 0 0 6px;
+        -moz-border-radius: 6px 0 0 6px;
+        border-radius: 6px 0 0 6px;
+      }
+      display: inline;
+      min-width: 20px;
+      text-align: center;
+      margin: 0;
+      padding:0;
+      padding-left: 3px;
+      padding-right: 3px;
+      background: $darkcolor;
+      color: $lightcolor;
+      a {
+        color: $lightcolor;
+        text-decoration: none;
+      }
+
+
+    }
+  }
+  margin-bottom: 17px;
+
+}
+
+.pactive {
+  background: $lightcolor;
+  color: $darkcolor;
+}
+.pdisabled {
+  color: $graycolor;
+}

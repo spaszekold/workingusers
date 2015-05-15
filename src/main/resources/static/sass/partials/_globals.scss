@@ -1,0 +1,15 @@
+body {
+  font-family: Delicious;
+  color: #555;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 970px;
+  }
+}
+
+$darkcolor: #000000;
+$lightcolor: #8e06c1;
+$verylightcolor: #ffffff;
+$graycolor: #777777;

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <object th:include="fragments/head :: head" th:remove="tag"/>
+    <title>Swagernia # create user</title>
+</head>
+<body>
+<div class="blog-masthead" th:replace="fragments/nav :: nav">
+
+</div>
+
+<div class="container">
+    <form role="form" method="post" th:object="${userform}" th:action="@{/user/create}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <div>
+            <label for="email">Email address</label>
+            <input type="email" name="email"  th:field="*{email}" id="email" required autofocus>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password"  th:field="*{password}" id="password" required>
+        </div>
+        <div>
+            <label for="nick">Nickname</label>
+            <input type="text" name="nick" id="nick"  th:field="*{nick}" required autofocus>
+        </div>
+        <button type="submit">Go</button>
+    </form>
+</div>
+
+</body>
+</html>

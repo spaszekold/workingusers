@@ -1,0 +1,39 @@
+
+$postheaderfont: 'Chunkfive';
+
+.blogPost {
+  margin-bottom: 40px;
+  margin-top: 20px;
+  background: $verylightcolor;
+  .bheader {
+    text-align: center;
+    background: $darkcolor;
+    border-top-right-radius: 15px;
+    .text {
+      font-size: 48px;
+      color: $lightcolor;
+      font-family: $postheaderfont;
+      margin: 0;
+      padding: 10px;
+    }
+  }
+  .createdBy {
+    color: $darkcolor;
+    margin: 0;
+    padding: 0;
+    .author {
+      color: $lightcolor;
+      font-weight: 900;
+    }
+  }
+
+  .teaser {
+    margin-top: 10px;
+  }
+  .readMore {
+    text-align: right;
+    margin-right: 15px;
+    color: $lightcolor;
+  }
+}
+

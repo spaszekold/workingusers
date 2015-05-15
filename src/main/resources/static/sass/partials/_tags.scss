@@ -1,0 +1,16 @@
+.tag {
+  margin-top: 5px;
+  border-radius: 4px;
+  display: inline-block;
+  background: $darkcolor;
+  color: $lightcolor;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 2px;
+  &:hover, &:active {
+    background: $lightcolor;
+    color: $darkcolor;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}

@@ -1,0 +1,20 @@
+.sidebar {
+  color: $verylightcolor;
+  padding: 15px;
+  background: $darkcolor;
+  .title {
+    color: $lightcolor;
+    font-size: 29px;
+  }
+}
+
+.siderbar_inverse {
+  background: $lightcolor;
+  color: $verylightcolor;
+  padding: 15px;
+  .title {
+    color: $darkcolor;
+    font-size: 29px;
+  }
+
+}

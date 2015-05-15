@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <object th:include="fragments/head :: head" th:remove="tag"/>
+    <title>Swagernia # homepage</title>
+    <script src="/js/angular/view.js"></script>
+
+
+
+</head>
+
+<body style="font-family: Delicious;">
+<div th:replace="fragments/header :: header">
+
+</div>
+<div th:replace="fragments/nav :: nav"  th:remove="tag">
+
+</div>
+
+<div class="container">
+
+    <div class="title">
+        <h1 class="text">SWAGCity</h1>
+    <!-- th:text="${leaddescription}"-->
+        <p class="description" >The most popular social website in the rap world. Also the largest portal about hatching lil'swaggers. The content is loaded with swag.
+        Perfect website for gymbuses like yourself.</p>
+    </div>
+
+    <div class="row" >
+
+        <div class="col-sm-8 blog-main">
+
+
+
+            <div class="blogPost" th:each="post : ${currentResults}">
+                <div class="bheader">
+                    <span class="text" th:text="${post.lilname}"></span>
+                </div>
+                <div class="shapes"></div>
+
+                <a class="tag" th:each="tag : ${post.tags}" th:href="@{${'/post/tag/'+tag.tagname+'/1' }}" th:text="'#' + ${tag.tagname}">
+
+                </a>
+
+                <span class="createdBy">by <a class="author" th:href="@{${'/post/user/'+post.userid?.nick+'/1' }}" th:text="${post.userid?.nick}"></a> at <span th:text="${post.created}"></span></span>
+
+                <h3 class="teaser" th:text="${post.fullname}"></h3>
+                <a class="readMore" th:href="@{${'/post/full/' + post.id}}">read more</a>
+
+            </div>
+
+            <!--<div class="blog-post well" th:each="post : ${currentResults}">-->
+
+                <!--<h2 class="blog-post-title" th:text="${post.lilname}"></h2>-->
+                <!--<p class="blog-post-meta">-->
+                    <!--tags:-->
+
+                        <!--<a th:each="tag : ${post.tags}" th:href="@{${'/post/tag/'+tag.tagname+'/1' }}" th:text="'#' + ${tag.tagname}"></a>-->
+
+                    <!--<br/>-->
+                    <!--<span th:text="${post.created}"></span> by <a th:href="@{${'/post/user/'+post.userid?.nick+'/1' }}" th:text="${post.userid?.nick}"></a>-->
+
+                <!--</p>-->
+                <!--<p th:text="${post.fullname}"></p>-->
+                <!--<a th:href="@{${'/post/full/' + post.id}}">read more</a>-->
+            <!--</div>&lt;!&ndash; /.blog-post &ndash;&gt;-->
+
+
+                    <div class="row">
+                        <div class="pag">
+                            <ul>
+                                <li th:class="${currentIndex == 1}? 'disabled' : ''">
+                                    <span th:if='${currentIndex == 1}'>← First</span>
+                                    <a th:if='${currentIndex != 1}'
+                                       th:href="@{${url + '/1'}}">← First</a>
+                                </li>
+                                <li th:class="${currentIndex != 1}? '' : 'disabled'">
+                                    <span th:if='${currentIndex == 1}'>«</span>
+                                    <a th:if='${currentIndex != 1}'
+                                       th:href="@{${url + '/'+ (currentIndex - 1)}}"
+                                       title='Go to previous page'>«</a>
+                                </li>
+
+                                <li th:each="item : ${#numbers.sequence(beginIndex,endIndex)}"
+                                    th:class="${item == currentIndex ? 'active' : '' }">
+
+                                    <span th:if='${item == currentIndex}' th:text='${item}'>1</span>
+
+                                    <a th:if='${item != currentIndex}'
+                                       th:href="@{${url + '/'+item }}">
+                                        <span th:text='${item}'>1</span>
+                                    </a>
+                                </li>
+
+                                <li th:class="${currentIndex != totalPages}? '' : 'disabled'">
+                                    <span th:if='${currentIndex == totalPages}'>»</span>
+                                    <a th:if='${currentIndex != totalPages}'
+                                       th:href="@{${url + '/'+(currentIndex + 1)}}" title='Go to next page'>»</a>
+                                </li>
+                                <li th:class="${currentIndex == totalPages}? 'disabled' : ''">
+                                    <span th:if='${currentIndex == totalPages}'>Last →</span>
+                                    <a th:if='${currentIndex != totalPages}'
+                                       th:href="@{${url + '/'+ totalPages}}">Last →</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1">
+            <div class="sidebar">
+                <h4 class="title">About</h4>
+                <p>Getting rekt by <em>pesky</em> noscopers is harmful for your soul. Drinking Mountain Dew beforehand might save you some feelings.</p>
+            </div>
+            <div class="sidebar_inverse">
+                <h4 class="title">Top tags</h4>
+                <div>
+                    <a class="tag" th:each="tag : ${tagCloud}" th:href="@{${'/post/tag/'+tag.key+'/1' }}" th:text="'#' + ${tag.key} + ' (' + ${tag.value} + ')'"></a>
+                </div>
+            </div>
+
+        </div><!-- /.blog-sidebar -->
+
+    </div><!-- /.row -->
+
+</div><!-- /.container -->
+
+<footer th:replace="fragments/footer :: footer">
+
+</footer>
+
+</body>
+</html>
