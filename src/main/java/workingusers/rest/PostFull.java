@@ -2,14 +2,13 @@ package workingusers.rest;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Tomek on 2015-04-30.
  */
 public class PostFull {
 
-    private long id;
+    private long postid;
     private String lilname;
     private String fullname;
     private String content;
@@ -24,12 +23,12 @@ public class PostFull {
         this.tags = tags;
     }
 
-    public long getId() {
-        return id;
+    public long getPostid() {
+        return postid;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setPostid(long postid) {
+        this.postid = postid;
     }
 
     public String getLilname() {
@@ -63,7 +62,7 @@ public class PostFull {
     public String toString() {
         return "PostFull{" +
                 "content='" + content + '\'' +
-                ", id=" + id +
+                ", postid=" + postid +
                 ", lilname='" + lilname + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", date=" + date +
@@ -76,7 +75,7 @@ public class PostFull {
         this.content = content;
         this.date = date;
         this.fullname = fullname;
-        this.id = id;
+        this.postid = id;
         this.lilname = lilname;
     }
 

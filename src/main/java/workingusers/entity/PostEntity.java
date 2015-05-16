@@ -18,8 +18,8 @@ public class PostEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private long id;
+    @Column(name = "postid")
+    private long postid;
 
 
     @Column(length = 35, name = "lilname")
@@ -59,7 +59,7 @@ public class PostEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinTable(name="POSTS_TAGS",
-                joinColumns = {@JoinColumn(name="postid", referencedColumnName = "id")},
+                joinColumns = {@JoinColumn(name="postid", referencedColumnName = "postid")},
                 inverseJoinColumns = {@JoinColumn(name="tagid", referencedColumnName = "id")})
     private Set<TagEntity> tags = new HashSet<TagEntity>();
 
@@ -87,12 +87,12 @@ public class PostEntity {
         this.tags = tags;
     }
 
-    public long getId() {
-        return id;
+    public long getPostid() {
+        return postid;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setPostid(long postid) {
+        this.postid = postid;
     }
 
     public String getLilname() {
@@ -131,7 +131,7 @@ public class PostEntity {
     public String toString() {
         return "PostEntity{" +
                 "content='" + content + '\'' +
-                ", id=" + id +
+                ", postid=" + postid +
                 ", lilname='" + lilname + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", created=" + created +

@@ -3,14 +3,15 @@
  */
 var comment = angular.module('comment',[]);
 var urlbase = "http://localhost:420/";
-
+console.log('tu1');
 
 
 
 
 comment.controller('commentCtrl', function($scope, $http){
+    console.log('tu2');
     var postid = document.getElementById('postid').value;
-    console.log('tu');
+    console.log('tu3');
     $http.get(urlbase + '/api2/comment/get/' + postid).
         success(function(data) {
             $scope.comments = data;
@@ -40,6 +41,24 @@ comment.controller('commentCtrl', function($scope, $http){
       $scope.currentparent = parentid;
     };
 
+    $scope.vote = function(commentid, points) {
+        var commentvote = {};
+            commentvote.commentid = commentid;
+            commentvote.points = points;
+
+        $http.post(urlbase + '/api2/comment/vote', commentvote).
+            success(function(data) {
+                console.log('worked');
+                $scope.getcomments();
+            }).
+            error(function(data,status,headers,config) {
+                console.log('nope');
+            });
+
+
+
+    };
+
     $scope.add = function() {
 
         var commentar = {}
@@ -53,7 +72,7 @@ comment.controller('commentCtrl', function($scope, $http){
         $http.post(urlbase + '/api2/comment/add/' + postid, dataa).
             success(function(data) {
                 console.log('worked');
-               $scope.comments = data;
+               $scope.getcomments();
             }).
             error(function(data,status,headers,config) {
                 console.log('nope');

@@ -21,7 +21,7 @@ public class CurrentUser extends User {
     }
 
     public long getId() {
-        return userEntity.getId();
+        return userEntity.getUserid();
     }
 
     public Role getRole() {

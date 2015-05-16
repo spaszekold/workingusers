@@ -1,10 +1,10 @@
 package workingusers.entity;
 
-import workingusers.rest.Comment;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Tomek on 2015-04-30.
@@ -16,15 +16,57 @@ public class CommentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long commentid;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "postid")
     private PostEntity postid;
 
     @OneToOne
-    @JoinColumn(name = "commentid")
+    @JoinColumn(name = "parentid")
     private CommentEntity parent;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
+    private UserEntity userid;
+
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "commentUserVoteId.comment")
+    private Set<CommentUserVote> commentUserVote;
+
+    public Set<CommentUserVote> getCommentUserVote() {
+        return commentUserVote;
+    }
+
+    public void setCommentUserVote(Set<CommentUserVote> commentUserVote) {
+        this.commentUserVote = commentUserVote;
+    }
+
+    private int score;
+
+    public PostEntity getPostid() {
+        return postid;
+    }
+
+    public void setPostid(PostEntity postid) {
+        this.postid = postid;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public UserEntity getUserid() {
+        return userid;
+    }
+
+    public void setUserid(UserEntity userid) {
+        this.userid = userid;
+    }
 
     private int depth;
 
@@ -42,12 +84,31 @@ public class CommentEntity {
 
     @Override
     public String toString() {
-        return "CommentEntity{" +
-                "content='" + content + '\'' +
-                ", id=" + id +
+
+        if (parent == null)
+            return "CommentEntity{" +
+                "commentid=" + commentid +
+                ", parent=null " +
+                ", userid=" + userid +
+                ", commentUserVote=" + commentUserVote +
+                ", score=" + score +
+                ", depth=" + depth +
                 ", lilname='" + lilname + '\'' +
+                ", content='" + content + '\'' +
                 ", created=" + created +
                 '}';
+        else
+            return "CommentEntity{" +
+                    "commentid=" + commentid +
+                    ", parent= " + parent.getCommentid() +
+                    ", userid=" + userid +
+                    ", commentUserVote=" + commentUserVote +
+                    ", score=" + score +
+                    ", depth=" + depth +
+                    ", lilname='" + lilname + '\'' +
+                    ", content='" + content + '\'' +
+                    ", created=" + created +
+                    '}';
     }
 
     public int getDepth() {
@@ -83,12 +144,12 @@ public class CommentEntity {
     private String content;
     private Date created;
 
-    public long getId() {
-        return id;
+    public long getCommentid() {
+        return commentid;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setCommentid(long commentid) {
+        this.commentid = commentid;
     }
 
     public String getLilname() {

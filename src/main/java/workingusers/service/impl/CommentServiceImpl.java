@@ -1,19 +1,20 @@
 package workingusers.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import workingusers.entity.CommentEntity;
-import workingusers.entity.PostEntity;
+import workingusers.entity.*;
 import workingusers.repository.CommentRepository;
+import workingusers.repository.CommentUserVoteRepository;
 import workingusers.repository.PostRepository;
+import workingusers.repository.UserRepository;
 import workingusers.rest.Comment;
 import workingusers.rest.CommentLittle;
+import workingusers.rest.CommentVote;
 import workingusers.service.CommentService;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Tomek on 2015-04-30.
@@ -27,22 +28,35 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CommentUserVoteRepository commentUserVoteRepository;
+
 
     /**
      * returns all comments from given post
      */
     @Override
-    public List<Comment> getCommentsFromPost(long postid) {
-        PostEntity p = postRepository.findOneById(postid);
+    public List<Comment> getCommentsFromPost(long postid, Authentication authentication) {
+        PostEntity p = postRepository.findOneByPostid(postid);
         List<CommentEntity> temp = commentRepository.findAllByPostidOrderByCreatedDesc(p);
         List<Comment> result = new ArrayList();
 
+
         //wrapping CommentEntity into lighter Comment
         for (CommentEntity c : temp) {
+            System.out.println("bede sie zajmowal: \n" + c);
             long parentid = -1;
             if (c.getParent() != null)
-                parentid = c.getParent().getId();
-            result.add(new Comment(c.getContent(), c.getCreated(), c.getId(), c.getLilname(), c.getDepth(),parentid ));
+                parentid = c.getParent().getCommentid();
+
+            System.out.println("parentid = " + parentid);
+
+            UserEntity author = userRepository.findOneByNick(c.getUserid().getNick());
+
+            result.add(new Comment(c.getContent(), c.getCreated(), c.getCommentid(), c.getLilname(), c.getDepth(),parentid, author.getNick(), c.getScore()));
         }
 
         //return sorted comment list
@@ -51,18 +65,114 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> addNew(long postid, CommentLittle comment) {
+    public Comment addNew(long postid, CommentLittle comment, Authentication authentication) {
         System.out.println("comment service, adding comment to " + postid);
-        PostEntity p = postRepository.findOneById(postid);
-        CommentEntity parent = commentRepository.findOneById(comment.parentid);
+        PostEntity p = postRepository.findOneByPostid(postid);
+        CommentEntity parent = commentRepository.findOneByCommentid(comment.parentid);
+        if (parent != null)
+        System.out.println("jego stary to " + parent);
 
         CommentEntity newComment = new CommentEntity(comment.content,new Date(), comment.lilname, p, parent);
 
+
+
+
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        Optional<UserEntity> userEntity = userRepository.findOneByEmail(user.getUsername());
+
+
+        String usernick = "";
+        if (userEntity.isPresent()) {
+            newComment.setUserid(userEntity.get());
+            usernick = userEntity.get().getNick();
+        }
+
         commentRepository.save(newComment);
-        return getCommentsFromPost(postid);
+        System.out.println("po zapisie otrzymuje cos w stylu" + newComment);
+
+        long parentid = -1;
+        if (newComment.getParent() != null)
+            parentid = newComment.getParent().getCommentid();
+
+
+        Comment result = new Comment(newComment.getContent(), newComment.getCreated(), newComment.getCommentid(), newComment.getLilname(), newComment.getDepth(), parentid, usernick, 0 );
+        System.out.println("dodano" + result);
+        return result;
+    }
+
+    @Override
+    public List<CommentUserVote> getUserVotes(long postid, Authentication authentication) {
+       // return commentUserVoteRepository.findAllByCommentUserVoteId();
+        return null;
+    }
+
+    @Override
+    public Comment vote(CommentVote commentVote, Authentication authentication) {
+        CommentEntity votedComment = commentRepository.findOneByCommentid(commentVote.commentid);
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        if (user == null) {
+            System.out.println("authentication failed");
+            return null;
+
+        }
+        Optional<UserEntity> userEntity = userRepository.findOneByEmail(user.getUsername());
+        CommentUserVoteId commentUserVoteId = new CommentUserVoteId(votedComment,userEntity.get());
+       // if (commentUserVoteRepository.findOneByCommentUserVoteId(commentUserVoteId) == null) {
+            System.out.println("wyglada na to, ze bedzie male glosowanko");
+            int currentScore = votedComment.getScore();
+            CommentUserVote commentUserVote = new CommentUserVote();
+            commentUserVote.setComment(votedComment);
+            commentUserVote.setUser(userEntity.get());
+            commentUserVote.setPoints(commentVote.points);
+            votedComment.getCommentUserVote().add(commentUserVote);
+            votedComment.setScore(currentScore + commentVote.points);
+            commentRepository.save(votedComment);
+
+            long parentid = -1;
+            if (votedComment.getParent() != null)
+                parentid = votedComment.getParent().getCommentid();
+
+            return new Comment(votedComment.getContent(),votedComment.getCreated(),votedComment.getCommentid(),votedComment.getLilname(),
+                                votedComment.getDepth(),parentid,votedComment.getUserid().getNick(),votedComment.getScore());
+//        }
+//        else {
+//            System.out.println("? " + commentUserVoteRepository.findOneByCommentUserVoteId(commentUserVoteId));
+//            return null;
+//        }
+
     }
 
 
+    /**
+     * used to sort a list to display the comments correctly.
+     * method takes the commentList and returns an arranged list of nested comments
+     *
+     * the algorithm handles hundreds(500+) of comments instantly
+     * it is important that list of comments must be sorted beforehand descending by created date(or ascending by comment score)
+     *
+     * pseudocode:
+     * 1) put all comments who have no parents in the result list and also calculate maximum depth of all comments
+     * 2) set currentdepth to 1
+     * 3) while we havent reached the maximum depth:
+     *      a) for each comment within current depth level
+     *          I) find parent's index in the result list
+     *          II) put comment right after the parent(parentindex +1) in the result list
+     *          III) remove comment from remaining list
+     *      b) increment currentdepth by 1
+     * 4) return result list
+     *
+     *
+     * we end up like this:
+     * #COMMENT 1
+     *      #COMMENT 3 WHICH RESPONDS TO COMMENT 1
+     *      #COMMENT 4 WHICH RESPONDS TO COMMENT 1
+     *          #COMMENT 5 WHICH RESPONDS TO COMMENT 4
+     * #COMMENT 2
+     *      #COMMENT 6 WHICH RESPONDS TO COMMENT 2
+     * and so on
+     *
+     * frontend work is fairly easy, just display each comment with margin-left equal to depth * 30(or any fixed value)
+     */
     private List<Comment> arrangeList(List<Comment> commentList) {
 
         List<Comment> result = new ArrayList<Comment>();
@@ -96,7 +206,7 @@ public class CommentServiceImpl implements CommentService {
                     Comment comment = commentIter.next();
                     //if comment's depth equals currently looked-on depth
                     if (comment.getDepth() == currentDepth) {
-                        //get parrent index
+                        //get parent index
                         int parentindex = getIndexOf(result, comment.getParentid());
                         //put it in result after the parent
                         result.add(parentindex + 1, comment);
@@ -121,7 +231,7 @@ public class CommentServiceImpl implements CommentService {
         while (iterator.hasNext()) {
             Comment next = iterator.next();
             if (next.id == pid) {
-            //    System.out.println("wychodzimy z loopa z indexem " + index);
+               System.out.println("wychodzimy z loopa z indexem " + index);
                 break;
             }
             index++;

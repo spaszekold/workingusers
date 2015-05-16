@@ -1,5 +1,6 @@
 package workingusers.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import workingusers.rest.Role;
 
 import javax.persistence.*;
@@ -14,8 +15,8 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, nullable = false, unique = true)
-    private long id;
+    @Column(name = "userid", updatable = false, nullable = false, unique = true)
+    private long userid;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -25,6 +26,26 @@ public class UserEntity {
 
     @Column(name = "hash")
     private String passwordHash;
+
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "commentUserVoteId.user")
+    private Set<CommentUserVote> commentUserVotes;
+
+    public Set<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<CommentEntity> comments) {
+        this.comments = comments;
+    }
+
+    public Set<CommentUserVote> getCommentUserVotes() {
+        return commentUserVotes;
+    }
+
+    public void setCommentUserVotes(Set<CommentUserVote> commentUserVotes) {
+        this.commentUserVotes = commentUserVotes;
+    }
 
     public Set<PostEntity> getPosts() {
         return posts;
@@ -36,6 +57,9 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "userid", cascade = CascadeType.ALL)
     private Set<PostEntity> posts;
+
+    @OneToMany(mappedBy = "userid", cascade = CascadeType.ALL)
+    private Set<CommentEntity> comments;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
@@ -56,7 +80,7 @@ public class UserEntity {
     public String toString() {
         return "UserEntity{" +
                 "email='" + email + '\'' +
-                ", id=" + id +
+                ", userid=" + userid +
                 ", nick='" + nick + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 ", role=" + role +
@@ -71,12 +95,12 @@ public class UserEntity {
         this.email = email;
     }
 
-    public long getId() {
-        return id;
+    public long getUserid() {
+        return userid;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setUserid(long userid) {
+        this.userid = userid;
     }
 
     public String getNick() {

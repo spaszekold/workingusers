@@ -45,25 +45,9 @@
                 <span class="createdBy">by <a class="author" th:href="@{${'/post/user/'+post.userid?.nick+'/1' }}" th:text="${post.userid?.nick}"></a> at <span th:text="${post.created}"></span></span>
 
                 <h3 class="teaser" th:text="${post.fullname}"></h3>
-                <a class="readMore" th:href="@{${'/post/full/' + post.id}}">read more</a>
+                <a class="readMore" th:href="@{${'/post/full/' + post.postid}}">read more</a>
 
             </div>
-
-            <!--<div class="blog-post well" th:each="post : ${currentResults}">-->
-
-                <!--<h2 class="blog-post-title" th:text="${post.lilname}"></h2>-->
-                <!--<p class="blog-post-meta">-->
-                    <!--tags:-->
-
-                        <!--<a th:each="tag : ${post.tags}" th:href="@{${'/post/tag/'+tag.tagname+'/1' }}" th:text="'#' + ${tag.tagname}"></a>-->
-
-                    <!--<br/>-->
-                    <!--<span th:text="${post.created}"></span> by <a th:href="@{${'/post/user/'+post.userid?.nick+'/1' }}" th:text="${post.userid?.nick}"></a>-->
-
-                <!--</p>-->
-                <!--<p th:text="${post.fullname}"></p>-->
-                <!--<a th:href="@{${'/post/full/' + post.id}}">read more</a>-->
-            <!--</div>&lt;!&ndash; /.blog-post &ndash;&gt;-->
 
 
                     <div class="row">

@@ -12,14 +12,10 @@ import workingusers.entity.UserEntity;
 import workingusers.repository.PostRepository;
 import workingusers.repository.TagRepository;
 import workingusers.repository.UserRepository;
-import workingusers.rest.Author;
-import workingusers.rest.PostFront;
 import workingusers.rest.PostFull;
-import workingusers.rest.Tag;
 import workingusers.service.PostService;
 
 import javax.transaction.Transactional;
-import java.security.Principal;
 import java.util.*;
 
 /**
@@ -40,8 +36,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostFull getFull(long id) {
-        PostEntity result = postRepository.findOneById(id);
-        return new PostFull(result.getContent(),result.getCreated(),result.getFullname(),result.getId(),result.getLilname());
+        PostEntity result = postRepository.findOneByPostid(id);
+        return new PostFull(result.getContent(),result.getCreated(),result.getFullname(),result.getPostid(),result.getLilname());
     }
 
     @Override

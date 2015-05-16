@@ -33,7 +33,7 @@ import java.io.IOException;
  */
 @Configuration
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfiguartion extends WebSecurityConfigurerAdapter {
 
 //    @Autowired

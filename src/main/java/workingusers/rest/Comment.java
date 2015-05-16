@@ -13,7 +13,27 @@ public class Comment {
     public String lilname;
     public Date created;
     public int depth;
+
+    private int score;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public long parentid;
+    public String author;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
     public int getDepth() {
         return depth;
@@ -31,13 +51,15 @@ public class Comment {
         this.parentid = parentid;
     }
 
-    public Comment(String content, Date created, long id, String lilname,int depth,  long parentid) {
+    public Comment(String content, Date created, long id, String lilname,int depth,  long parentid, String author, int score) {
         this.content = content;
         this.created = created;
         this.depth = depth;
         this.id = id;
         this.lilname = lilname;
+        this.author = author;
         this.parentid = parentid;
+        this.score = score;
     }
 
 
@@ -50,13 +72,14 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "content='" + content + '\'' +
+                "author='" + author + '\'' +
                 ", id=" + id +
+                ", content='" + content + '\'' +
                 ", lilname='" + lilname + '\'' +
                 ", created=" + created +
                 ", depth=" + depth +
                 ", parentid=" + parentid +
-                "}\n";
+                '}';
     }
 
     public void setContent(String content) {

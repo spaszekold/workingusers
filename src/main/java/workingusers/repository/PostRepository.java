@@ -23,5 +23,5 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     public long countByTags(TagEntity tagEntity);
 
    // public List<PostEntity> findAllByOrderByCreatedDesc();
-    public PostEntity findOneById(long id);
+    public PostEntity findOneByPostid(long id);
 }

@@ -14,15 +14,15 @@
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <div>
             <label for="email">Email address</label>
-            <input type="email" name="email"  th:field="*{email}" id="email" required autofocus>
+            <input type="email" name="email"  th:field="*{email}" commentid="email" required autofocus>
         </div>
         <div>
             <label for="password">Password</label>
-            <input type="password" name="password"  th:field="*{password}" id="password" required>
+            <input type="password" name="password"  th:field="*{password}" commentid="password" required>
         </div>
         <div>
             <label for="nick">Nickname</label>
-            <input type="text" name="nick" id="nick"  th:field="*{nick}" required autofocus>
+            <input type="text" name="nick" commentid="nick"  th:field="*{nick}" required autofocus>
         </div>
         <button type="submit">Go</button>
     </form>
