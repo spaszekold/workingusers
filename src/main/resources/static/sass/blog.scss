@@ -11,15 +11,7 @@
 @import 'partials/_globals';
 @import 'partials/_mixin';
 @import 'partials/_tags';
-
-.shapes {
-  border-style: solid;
-  border-width: 0px 0px 11px;
-  @include border-image(url('../img/bordere.jpeg'), 34 34 17, round repeat);
-  border-top-width: 0px;
-  border-left-width: 0px;
-  border-right-width: 0px;
-}
+@import 'partials/_shapes';
 
 
 /*  ----------------------------------------------------------------------- */
