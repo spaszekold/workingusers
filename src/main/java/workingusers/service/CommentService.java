@@ -18,7 +18,5 @@ public interface CommentService {
 
     public Comment addNew(long postid, CommentLittle comment, Authentication authentication);
 
-    List<CommentUserVote> getUserVotes(long postid, Authentication authentication);
-
     Comment vote(CommentVote commentVote, Authentication authentication);
 }

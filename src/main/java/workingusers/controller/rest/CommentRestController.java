@@ -50,10 +50,5 @@ public class CommentRestController {
     public List<Comment> getAllComments(@PathVariable long postid, Authentication authentication){
         return commentService.getCommentsFromPost(postid, authentication);
     }
-
-    @RequestMapping(value = "/get/votes/{postid}", method = RequestMethod.GET)
-    public List<CommentUserVote> getYourVotes(@PathVariable long postid, Authentication authentication) {
-        return commentService.getUserVotes(postid, authentication);
-    }
-
+    
 }
