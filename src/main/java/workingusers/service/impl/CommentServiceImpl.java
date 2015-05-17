@@ -14,12 +14,14 @@ import workingusers.rest.CommentLittle;
 import workingusers.rest.CommentVote;
 import workingusers.service.CommentService;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 /**
  * Created by Tomek on 2015-04-30.
  */
 @Service
+@Transactional
 public class CommentServiceImpl implements CommentService {
 
     @Autowired

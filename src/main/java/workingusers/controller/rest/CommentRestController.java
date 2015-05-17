@@ -50,5 +50,5 @@ public class CommentRestController {
     public List<Comment> getAllComments(@PathVariable long postid, Authentication authentication){
         return commentService.getCommentsFromPost(postid, authentication);
     }
-    
+
 }
