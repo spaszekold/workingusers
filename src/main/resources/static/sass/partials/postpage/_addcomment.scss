@@ -1,0 +1,53 @@
+.addcommentauth {
+    padding: 15px;
+    background: $lightcolor;
+    margin-bottom: 50px;
+    h2 {
+      font-family: $postheaderfont_;
+      color: $verylightcolor;
+      font-weight: 400;
+      margin: 10px;
+      font-size: 44px;
+    }
+}
+
+.addcomment {
+    padding: 15px;
+    border-left: 2px solid $lightcolor;
+    margin-bottom: 50px;
+    h2 {
+        font-family: $postheaderfont_;
+        color: $lightcolor;
+        font-weight: 400;
+        margin: 10px;
+        font-size: 44px;
+    }
+    button {
+      width: 100px;
+      font-size: 20px;
+      text-align: center;
+      border: none;
+      background: $lightcolor;
+      border-radius: 5px;
+      color: $verylightcolor;
+    }
+    table {
+        td {
+          color: $lightcolor;
+          font-size: 20px;
+          min-width: 50px;
+          padding: 5px;
+        }
+        input {
+          margin-bottom: 5px;
+          color: $darkcolor;
+          font-size: 15px;
+          min-width: 350px;
+        }
+        textarea {
+          width: 350px;
+          color: $darkcolor;
+          height: 200px;
+        }
+    }
+}

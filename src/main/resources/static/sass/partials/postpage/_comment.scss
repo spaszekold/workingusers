@@ -1,0 +1,293 @@
+
+
+.comment {
+  width: 600px;
+  overflow: hidden;
+}
+
+.commentAuthor {
+  width: 80px;
+  float: left;
+
+}
+
+
+.commentAvatar {
+  height: 80px;
+  width: 80px;
+  border-radius: 40px;
+  border: 1px solid;
+  background: $lightcolor;
+  color: $verylightcolor;
+  font-family: $postheaderfont_;
+  font-size: 34px;
+  vertical-align: middle;
+  line-height: 80px;
+  text-align: center;
+}
+
+.commentAuthorNick {
+  margin-top:4px;
+  text-align: center;
+}
+
+.commentContent {
+  float: left;
+  margin-left: 40px;
+  box-shadow: 2px 3px 5px #888888;
+  width: 450px;
+  margin-bottom: 25px;
+  min-height: 130px;
+  border: 1px solid;
+}
+
+
+.uparrow {
+  height: 30px;
+  width: 100%;
+}
+
+.botarrow {
+  margin-top: 5px;
+  height: 30px;
+  width: 100%;
+}
+
+.arrowcontainer {
+  position: relative;
+  left: 25%;
+}
+
+.borderarrowup {
+  position : absolute;
+  z-index  : 99;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 20px 25px 20px;
+  border-color: transparent transparent $lightcolor transparent;
+}
+
+.insidearrowup:hover {
+  border-color: transparent transparent $lightcolor transparent;
+  cursor: pointer;
+}
+
+.insidearrowup {
+  position : absolute;
+  left: 5px;
+  top:3px;
+  z-index  : 100;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 15px 20px 15px;
+  border-color: transparent transparent $verylightcolor transparent;
+}
+
+.borderarrowdown {
+  position : absolute;
+
+  z-index  : 99;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 25px 20px 0px 20px;
+  border-color: $lightcolor transparent transparent transparent;
+}
+
+.insidearrowdown {
+  position : absolute;
+  left: 5px;
+  top:3px;
+  z-index  : 100;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 20px 15px 0px 15px;
+  border-color: $verylightcolor transparent transparent transparent;
+}
+
+.insidearrowdown:hover {
+  border-color: $lightcolor transparent transparent  transparent;
+  cursor: pointer;
+}
+
+.commentPanelTop {
+
+  height: 25px;
+}
+
+.commentPanelHeader {
+  width: 80%;
+  float: left;
+  padding: 5px;
+}
+
+.commentPanelReplyTo {
+  width: 20%;
+  background: $lightcolor;
+  float: left;
+  color: $verylightcolor;
+  padding: 5px;
+}
+
+.commentPanelReplyTo:hover {
+  color: $lightcolor;
+  background: $verylightcolor;
+  cursor: pointer;
+  border-left: 1px solid;
+  border-bottom: 1px solid;
+  border-bottom-left-radius: 5px;
+}
+
+.commentHeader {
+  padding: 4px;
+  font-size: 33px;
+  font-weight: 450;
+}
+
+.commentText {
+  padding: 4px;
+  font-size: 18px;
+}
+
+
+//
+//.commentContent {
+//  float: left;
+//  margin-left: 40px;
+//  box-shadow: 2px 3px 5px #888888;
+//  width: 450px;
+//  margin-bottom: 25px;
+//  min-height: 130px;
+//  border: 1px solid;
+//}
+//
+//
+//.commentPanelTop {
+//
+//  height: 25px;
+//}
+//
+//.commentPanelHeader {
+//  width: 80%;
+//  float: left;
+//  padding: 5px;
+//}
+//
+//.commentPanelReplyTo {
+//  width: 20%;
+//  background: $lightcolor;
+//  float: left;
+//  color: $verylightcolor;
+//  padding: 5px;
+//}
+//
+//.commentPanelReplyTo:hover {
+//  color: $lightcolor;
+//  background: $verylightcolor;
+//  cursor: pointer;
+//  border-left: 1px solid;
+//  border-bottom: 1px solid;
+//  border-bottom-left-radius: 5px;
+//}
+//
+//.commentHeader {
+//  padding: 4px;
+//  font-size: 33px;
+//  font-weight: 400;
+//}
+//
+//.commentText {
+//  padding: 4px;
+//  font-size: 18px;
+//}
+//
+//.comment {
+//    width: 600px;
+//    overflow: hidden;
+//    .author {
+//        width: 80px;
+//        float: left;
+//        .avatar {
+//          height: 80px;
+//          width: 80px;
+//          border-radius: 40px;
+//          border: 1px solid;
+//          background: $lightcolor;
+//          color: $verylightcolor;
+//          font-family: $postheaderfont_;
+//          font-size: 34px;
+//          vertical-align: middle;
+//          line-height: 80px;
+//          text-align: center;
+//        }
+//        .uparrow {
+//            height: 30px;
+//            width: 100%;
+//          .borderarrowup {
+//            position : absolute;
+//            z-index  : 99;
+//            width: 0;
+//            height: 0;
+//            border-style: solid;
+//            border-width: 0 20px 25px 20px;
+//            border-color: transparent transparent $lightcolor transparent;
+//          }
+//          .insidearrowup {
+//            position : absolute;
+//            left: 5px;
+//            top:3px;
+//            z-index  : 100;
+//            width: 0;
+//            height: 0;
+//            border-style: solid;
+//            border-width: 0 15px 20px 15px;
+//            border-color: transparent transparent $verylightcolor transparent;
+//            &:hover {
+//              border-color: transparent transparent $lightcolor transparent;
+//              cursor: pointer;
+//            }
+//          }
+//
+//        }
+//        .botarrow {
+//            margin-top: 5px;
+//            height: 30px;
+//            width: 100%;
+//            .borderarrowdown {
+//              position : absolute;
+//              z-index  : 99;
+//              width: 0;
+//              height: 0;
+//              border-style: solid;
+//              border-width: 25px 20px 0px 20px;
+//              border-color: $lightcolor transparent transparent transparent;
+//            }
+//            .insidearrowdown {
+//              position : absolute;
+//              left: 5px;
+//              top:3px;
+//              z-index  : 100;
+//              width: 0;
+//              height: 0;
+//              border-style: solid;
+//              border-width: 20px 15px 0px 15px;
+//              border-color: $verylightcolor transparent transparent transparent;
+//              &:hover {
+//                border-color: $lightcolor transparent transparent  transparent;
+//                cursor: pointer;
+//              }
+//             }
+//        }
+//        .arrowcontainer {
+//          position: relative;
+//          left: 25%;
+//        }
+//
+//
+//    }
+//
+//}
+//
