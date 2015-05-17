@@ -20,6 +20,17 @@ public class CommentUserVote {
     @Column(name = "points")
     private int points;
 
+    @Column(name = "postid")
+    private long postid;
+
+    public long getPostid() {
+        return postid;
+    }
+
+    public void setPostid(long postid) {
+        this.postid = postid;
+    }
+
     public CommentEntity getComment() {
         return commentUserVoteId.getComment();
     }
@@ -42,6 +53,15 @@ public class CommentUserVote {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentUserVote{" +
+                "commentUserVoteId=" + commentUserVoteId +
+                ", points=" + points +
+                ", postid=" + postid +
+                '}';
     }
 
     public CommentUserVoteId getCommentUserVoteId() {

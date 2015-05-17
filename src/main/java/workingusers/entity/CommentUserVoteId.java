@@ -15,6 +15,14 @@ public class CommentUserVoteId implements java.io.Serializable {
     @JsonManagedReference
     private CommentEntity comment;
 
+    @Override
+    public String toString() {
+        return "CommentUserVoteId{" +
+                "comment=" + comment.getCommentid() +
+                ", user=" + user.getNick() +
+                '}';
+    }
+
     @ManyToOne
     @JsonManagedReference
     private UserEntity user;

@@ -42,9 +42,11 @@ comment.controller('commentCtrl', function($scope, $http){
     };
 
     $scope.vote = function(commentid, points) {
+        var postid = document.getElementById('postid').value;
         var commentvote = {};
             commentvote.commentid = commentid;
             commentvote.points = points;
+            commentvote.postid = postid;
 
         $http.post(urlbase + '/api2/comment/vote', commentvote).
             success(function(data) {
