@@ -43,7 +43,15 @@ public class CommentServiceImpl implements CommentService {
         PostEntity p = postRepository.findOneByPostid(postid);
         List<CommentEntity> temp = commentRepository.findAllByPostidOrderByCreatedDesc(p);
         List<Comment> result = new ArrayList();
+        List<CommentUserVote> votedPosts = null;
 
+        if (authentication != null) {
+            UserDetails user = (UserDetails) authentication.getPrincipal();
+            Optional<UserEntity> userEntity = userRepository.findOneByEmail(user.getUsername());
+            if (userEntity.isPresent()) {
+                votedPosts = commentUserVoteRepository.findAllByCommentUserVoteIdUserAndPostid(userEntity.get(),postid);
+            }
+        }
 
         //wrapping CommentEntity into lighter Comment
         for (CommentEntity c : temp) {
@@ -56,12 +64,22 @@ public class CommentServiceImpl implements CommentService {
 
             UserEntity author = userRepository.findOneByNick(c.getUserid().getNick());
 
-            result.add(new Comment(c.getContent(), c.getCreated(), c.getCommentid(), c.getLilname(), c.getDepth(),parentid, author.getNick(), c.getScore()));
+            result.add(new Comment(c.getContent(), c.getCreated(), c.getCommentid(), c.getLilname(), c.getDepth(),parentid, author.getNick(), c.getScore(),containsComment(c,votedPosts)));
         }
 
         //return sorted comment list
         return arrangeList(result);
 
+    }
+
+    private int containsComment(CommentEntity commentEntity, List<CommentUserVote> votes) {
+        Iterator<CommentUserVote> voteIterator = votes.iterator();
+        while (voteIterator.hasNext()) {
+            CommentUserVote next = voteIterator.next();
+            if (next.getComment().equals(commentEntity))
+                return next.getPoints();
+        }
+        return 0;
     }
 
     @Override
@@ -95,7 +113,7 @@ public class CommentServiceImpl implements CommentService {
             parentid = newComment.getParent().getCommentid();
 
 
-        Comment result = new Comment(newComment.getContent(), newComment.getCreated(), newComment.getCommentid(), newComment.getLilname(), newComment.getDepth(), parentid, usernick, 0 );
+        Comment result = new Comment(newComment.getContent(), newComment.getCreated(), newComment.getCommentid(), newComment.getLilname(), newComment.getDepth(), parentid, usernick, 0, 0 );
         System.out.println("dodano" + result);
         return result;
     }
@@ -117,13 +135,15 @@ public class CommentServiceImpl implements CommentService {
         }
         Optional<UserEntity> userEntity = userRepository.findOneByEmail(user.getUsername());
         CommentUserVoteId commentUserVoteId = new CommentUserVoteId(votedComment,userEntity.get());
-       // if (commentUserVoteRepository.findOneByCommentUserVoteId(commentUserVoteId) == null) {
+        if (commentUserVoteRepository.findOneByCommentUserVoteId(commentUserVoteId) == null) {
             System.out.println("wyglada na to, ze bedzie male glosowanko");
+
             int currentScore = votedComment.getScore();
             CommentUserVote commentUserVote = new CommentUserVote();
             commentUserVote.setComment(votedComment);
             commentUserVote.setUser(userEntity.get());
             commentUserVote.setPoints(commentVote.points);
+            commentUserVote.setPostid(commentVote.postid);
             votedComment.getCommentUserVote().add(commentUserVote);
             votedComment.setScore(currentScore + commentVote.points);
             commentRepository.save(votedComment);
@@ -133,12 +153,12 @@ public class CommentServiceImpl implements CommentService {
                 parentid = votedComment.getParent().getCommentid();
 
             return new Comment(votedComment.getContent(),votedComment.getCreated(),votedComment.getCommentid(),votedComment.getLilname(),
-                                votedComment.getDepth(),parentid,votedComment.getUserid().getNick(),votedComment.getScore());
-//        }
-//        else {
-//            System.out.println("? " + commentUserVoteRepository.findOneByCommentUserVoteId(commentUserVoteId));
-//            return null;
-//        }
+                                votedComment.getDepth(),parentid,votedComment.getUserid().getNick(),votedComment.getScore(),commentVote.points);
+        }
+        else {
+            System.out.println("? " + commentUserVoteRepository.findOneByCommentUserVoteId(commentUserVoteId));
+            return null;
+        }
 
     }
 

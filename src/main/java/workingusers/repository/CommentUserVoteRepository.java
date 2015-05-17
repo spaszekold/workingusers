@@ -15,6 +15,7 @@ import java.util.List;
 public interface CommentUserVoteRepository extends JpaRepository<CommentUserVote, CommentUserVoteId> {
 
 
-   // @Query(value = "SELECT * FROM COMMENT_USER_VOTES WHERE commentUserVoteId.commen", nativeQuery = true)
-    List<CommentUserVote> findOneByCommentUserVoteId(CommentUserVoteId commentUserVoteId);
+    List<CommentUserVote> findAllByCommentUserVoteIdUserAndPostid(UserEntity userEntity, long postid);
+
+    CommentUserVote findOneByCommentUserVoteId(CommentUserVoteId commentUserVoteId);
 }

@@ -6,4 +6,5 @@ package workingusers.rest;
 public class CommentVote {
     public long commentid;
     public int points;
+    public long postid;
 }

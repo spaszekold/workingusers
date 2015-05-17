@@ -14,6 +14,17 @@ public class Comment {
     public Date created;
     public int depth;
 
+    public int vote;
+
+
+    public int isHasVoted() {
+        return vote;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
+    }
+
     private int score;
 
     public int getScore() {
@@ -51,7 +62,7 @@ public class Comment {
         this.parentid = parentid;
     }
 
-    public Comment(String content, Date created, long id, String lilname,int depth,  long parentid, String author, int score) {
+    public Comment(String content, Date created, long id, String lilname,int depth,  long parentid, String author, int score, int hasVoted) {
         this.content = content;
         this.created = created;
         this.depth = depth;
@@ -60,6 +71,7 @@ public class Comment {
         this.author = author;
         this.parentid = parentid;
         this.score = score;
+        this.vote = hasVoted;
     }
 
 
