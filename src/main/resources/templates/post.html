@@ -4,6 +4,7 @@
     <object th:include="fragments/head :: head" th:remove="tag"/>
     <title>Swagernia # post</title>
     <script src="/js/angular/post.js"></script>
+    <link rel="stylesheet" href="/css/post.css" />
 
 </head>
 <body>
@@ -15,72 +16,94 @@
 </div>
 
 <div class="container">
-    <h1 class="mblog-post-header" th:text="'#' + ${post.postid} + '   ' + ${post.lilname}"></h1>
-    <h2 class="mblog-post-header2" th:text="${post.fullname}">hhh</h2>
+    <h1 class="title" th:text="${post.lilname}"></h1>
 
-    <div class="blog-post">
-    <p class="mblog-post-content" th:text="${post.content}"></p>
+
+    <div class="fullpost">
+        <div class="createdby">
+        by Tomek at xxxxxxxx  tags:  <span class="tag">#rekt</span><span class="tag">#rekt</span> <span class="tag">#rekt</span><span class="tag">#rekt</span> <span class="tag">#rekt</span><span class="tag">#rekt</span>
         </div>
+        <div class="shapes2"></div>
+        <h2 class="teaser" th:text="${post.fullname}"> </h2>
 
-    <div sec:authorize="isAuthenticated()">
-
-
+        <span class="content">
+            <p class="paragraph"  th:text="${post.content}"> </p>
+        </span>
     </div>
 
 
-    <div  ng-app="comment" ng-controller="commentCtrl"  >
+    <div  ng-app="comment" ng-controller="commentCtrl" class="comments">
         <input type="hidden" name="postid" id="postid" value="420" th:value="${post.postid}"/>
-        <h2>Add a comment</h2>
-        <form name="commentform" sec:authorize="isAuthenticated()">
-
-            <label>CTITLE: </label>
-            <input type="text" ng-model="ctitle"/>
-            <label>CCONTENT: </label>
-            <input type="text" ng-model="ccontent"/>
-            <button ng-click="add()">ADD</button>
-            {{currentparent}}
-        </form>
-        <h3 sec:authorize="isAnonymous()">You have to be logged in to comment.</h3>
-        <br/>
-
-
-        <div class="row" style="width: 300px; background:gray; margin-top: 20px;" ng-style="{'margin-left': '' + comment.depth * 25 + 'px'}" ng-repeat="comment in comments track by $index" ng-click="selectParent(comment.id)">
-
-            <div class="col-md-3">
-                <div sec:authorize="isAuthenticated()" ng-show="comment.vote == 0" style="width:100%; height: 60px; background: green; cursor: pointer;" ng-click="vote(comment.id,1)"> ++
-
-                </div>
-                <div sec:authorize="isAuthenticated()" ng-show="comment.vote > 0" style="width:100%; height: 60px; background: #006130; cursor: pointer;" ng-click="vote(comment.id,1)">
-
-                </div>
-                <div sec:authorize="isAnonymous()" style="height: 60px"></div>
-                <div style="width:100%"><h1>{{comment.score}}</h1> </div>
-                <div sec:authorize="isAuthenticated()" ng-show="comment.vote == 0" style="width:100%; height: 60px; background: red; cursor: pointer;" ng-click="vote(comment.id,-1)">--
-
-                </div>
-                <div sec:authorize="isAuthenticated()" ng-show="comment.vote < 0" style="width:100%; height: 60px; background: #710013; cursor: pointer;" ng-click="vote(comment.id,-1)">--
-
-                </div>
-                <div sec:authorize="isAnonymous()" style="height: 60px"></div>
-            </div>
-            <div class="col-md-9" style="background: gray">
-                #{{comment.id}}
-                <h1>{{comment.lilname}}</h1>
-
-                <p ng-show="comment.parentid != -1">in response to {{comment.parentid}}</p>
-                <p> created by {{comment.author}} on {{comment.created | date:'yyyy-MM-dd HH:mm:ss '}}</p>
-                {{comment.content}}
-
-            </div>
-
+        <div class="addcommentauth" sec:authorize="isAnonymous()">
+            <h2>Please sign in to post and vote comments</h2>
         </div>
+        <div class="addcomment" sec:authorize="isAuthenticated()">
+            <h2>Add your opinion</h2>
+                <form name="commentform">
+                <div class="addcommentpanel">
+                    <table>
+                        <tr>
+                            <td>header:</td>
+                            <td><input type="text" ng-model="ctitle"/></td>
+
+                        </tr>
+                        <tr>
+                            <td>content:</td>
+                            <td><textarea ng-model="ccontent"/></textarea></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <span ng-show="currentparent != -1">replying to #{{currentparent}} <span class="glyphicon glyphicon-remove" ng-click="cancelparent()" style="cursor: pointer;"></span></span> <button style="float: right;" ng-click="add()">post</button>
+                            </td>
+                        </tr>
+
+
+
+                    </table>
+                </div>
+                </form>
+        </div>
+
+        <div class="comment" ng-style="{'margin-left': '' + comment.depth * 25 + 'px'}" ng-repeat="comment in comments track by $index">
+
+            <div class="commentAuthor">
+
+                <div class="uparrow" >
+                    <div class="arrowcontainer" sec:authorize="isAuthenticated()" ng-show="comment.vote >= 0">
+                        <div class="borderarrowup" ng-click="vote(comment.id,1)"></div>
+                        <div class="insidearrowup" ng-click="vote(comment.id,1)" ng-show="comment.vote == 0"></div>
+                    </div>
+                </div>
+
+                <div class="commentAvatar">{{comment.score}}</div>
+                <div class="botarrow">
+                    <div class="arrowcontainer" sec:authorize="isAuthenticated()" ng-show="comment.vote <= 0">
+                        <div class="borderarrowdown" ng-click="vote(comment.id,1)"></div>
+                        <div class="insidearrowdown" ng-click="vote(comment.id,-1)" ng-show="comment.vote == 0"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="commentContent">
+                <div class="commentPanelTop">
+                    <div class="commentPanelHeader">#{{comment.id}} by {{comment.author}} at {{comment.created | date:'yyyy-MM-dd HH:mm:ss '}} <span ng-show="comment.parentid != -1">in reply to {{comment.parentid}}</span></div>
+                    <div class="commentPanelReplyTo" ng-click="selectParent(comment.id)">reply <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span></div>
+                </div>
+                <span class="commentHeader">{{comment.lilname}}</span>
+                <p class="commentText">{{comment.content}}</p>
+            </div>
+        </div>
+
 
     </div>
 
 </div>
-<footer class="blog-footer" th:replace="fragments/footer :: footer">
+
+<footer th:replace="fragments/footer :: footer">
 
 </footer>
 
 </body>
 </html>
+

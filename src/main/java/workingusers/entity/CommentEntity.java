@@ -140,7 +140,10 @@ public class CommentEntity {
             this.depth = 1 + parent.getDepth();
     }
 
+    @Column(length = 100)
     private String lilname;
+
+    @Column(length = 500)
     private String content;
     private Date created;
 

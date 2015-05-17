@@ -74,6 +74,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private int containsComment(CommentEntity commentEntity, List<CommentUserVote> votes) {
+        if (votes == null)
+            return 0;
+        if (votes.isEmpty())
+            return 0;
         Iterator<CommentUserVote> voteIterator = votes.iterator();
         while (voteIterator.hasNext()) {
             CommentUserVote next = voteIterator.next();
@@ -117,10 +121,15 @@ public class CommentServiceImpl implements CommentService {
         return result;
     }
 
+
+    /*
+     * handle user voting
+     */
     @Override
     public Comment vote(CommentVote commentVote, Authentication authentication) {
         CommentEntity votedComment = commentRepository.findOneByCommentid(commentVote.commentid);
         UserDetails user = (UserDetails) authentication.getPrincipal();
+        //there is no way anyone would get to here unauthenticated, but just in case...
         if (user == null) {
             System.out.println("authentication failed");
             return null;
@@ -129,9 +138,9 @@ public class CommentServiceImpl implements CommentService {
         Optional<UserEntity> userEntity = userRepository.findOneByEmail(user.getUsername());
         CommentUserVoteId commentUserVoteId = new CommentUserVoteId(votedComment,userEntity.get());
         CommentUserVote alreadyVoted = commentUserVoteRepository.findOneByCommentUserVoteId(commentUserVoteId);
-        if (alreadyVoted == null) {
-            System.out.println("wyglada na to, ze bedzie male glosowanko");
 
+        //if user had not voted on this comment yet
+        if (alreadyVoted == null) {
             int currentScore = votedComment.getScore();
             CommentUserVote commentUserVote = new CommentUserVote();
             commentUserVote.setComment(votedComment);
@@ -149,6 +158,7 @@ public class CommentServiceImpl implements CommentService {
             return new Comment(votedComment.getContent(),votedComment.getCreated(),votedComment.getCommentid(),votedComment.getLilname(),
                                 votedComment.getDepth(),parentid,votedComment.getUserid().getNick(),votedComment.getScore(),commentVote.points);
         }
+        //if user cancels the vote
         else {
             int currentScore = votedComment.getScore();
             votedComment.getCommentUserVote().remove(alreadyVoted);

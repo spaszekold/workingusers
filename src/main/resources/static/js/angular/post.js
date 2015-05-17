@@ -61,6 +61,10 @@ comment.controller('commentCtrl', function($scope, $http){
 
     };
 
+    $scope.cancelparent = function() {
+        $scope.currentparent = -1;
+    };
+
     $scope.add = function() {
 
         var commentar = {}
