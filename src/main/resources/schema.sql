@@ -44,18 +44,5 @@ create TABLE POSTS_TAGS (
 );
 
 
-insert into posts (lilname,fullname,content,created) values ('Catchy post title','you have to open the post ','Mildly interesting content','2008-08-08 20:08:08');
-insert into posts (lilname,fullname,content) values ('ges rekt','tryffhard','sssez');
-insert into posts (lilname,fullname,content,created) values ('Catchy post title','you have to open the post ','Mildly interesting content','2008-08-08 20:08:08');
-insert into posts (lilname,fullname,content) values ('ges rekt','tryffhard','sssez');
-insert into posts (lilname,fullname,content,created) values ('Catchy post title','you have to open the post ','Mildly interesting content','2008-08-08 20:08:08');
-insert into posts (lilname,fullname,content) values ('ges rekt','tryffhard','sssez');
-insert into posts (lilname,fullname,content,created) values ('Catchy post title','you have to open the post ','Mildly interesting content','2008-08-08 20:08:08');
-insert into posts (lilname,fullname,content) values ('ges rekt','tryffhard','sssez');
 
-insert into users (username, password, enabled) values ('admin', '420', true);
-insert into users (username, password, enabled) values ('user', '420', true);
-
-insert into authorities (username, authority) values ('user', 'ROLE_USER');
-insert into authorities (username, authority) values ('admin', 'ROLE_ADMIN');
-insert into authorities (username, authority) values ('admin', 'ROLE_USER');
+insert into posts (lilname,fullname,content) values ('Create new account','to add actual posts and comments','');
