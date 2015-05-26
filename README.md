@@ -27,3 +27,14 @@ Instructions:
 <li>run grunt to compile sass and add bower dependencies to .html</li>
 <li>run maven with spring boot </li>
 </ul>
+
+Usage:
+<ul>
+<li> create an account and access /admin to create new posts </li>
+</ul>
+
+Todo:
+<ul>
+<li>Refactor admin panel to be actually useful</li>
+<li>Logout -> needs just JS to POST a logout</li>
+</ul>
